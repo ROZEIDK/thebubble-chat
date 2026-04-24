@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Users, Server, UserCog, LogOut, MessageCircle } from "lucide-react";
+import { Users, Server, UserCog, LogOut, MessageCircle, Github } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -44,6 +44,21 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
+
+        <Tooltip delayDuration={150}>
+          <TooltipTrigger asChild>
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View on GitHub"
+              className="h-11 w-11 rounded-xl flex items-center justify-center text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground transition-colors"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+          </TooltipTrigger>
+          <TooltipContent side="right">Contribute on GitHub</TooltipContent>
+        </Tooltip>
 
         <Tooltip delayDuration={150}>
           <TooltipTrigger asChild>
