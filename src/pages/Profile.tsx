@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Camera, Loader2, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
+import ThemePicker from "@/components/ThemePicker";
 
 const usernameRe = /^[a-zA-Z0-9_]{3,20}$/;
 const profileSchema = z.object({
@@ -135,6 +136,8 @@ export default function Profile() {
               </Button>
             </div>
           </Card>
+
+          <ThemePicker />
         </div>
       </div>
     </div>
