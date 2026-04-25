@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Users, Server, UserCog, LogOut, MessageCircle, Github } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useUnread } from "@/hooks/useUnread";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -13,6 +14,7 @@ const items = [
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { signOut } = useAuth();
+  const { total } = useUnread();
   const loc = useLocation();
 
   return (
