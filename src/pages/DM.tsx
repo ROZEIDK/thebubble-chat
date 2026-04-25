@@ -40,6 +40,9 @@ export default function DM() {
         setMessages(data || []);
       });
 
+    // Mark conversation as read when opened
+    markRead(friendId);
+
     const ch = supabase
       .channel(`dm-${user.id}-${friendId}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
@@ -49,11 +52,13 @@ export default function DM() {
           (m.sender_id === friendId && m.recipient_id === user.id)
         ) {
           setMessages((prev) => [...prev, m]);
+          // If incoming while viewing, keep marker fresh
+          if (m.sender_id === friendId) markRead(friendId);
         }
       })
       .subscribe();
     return () => { supabase.removeChannel(ch); };
-  }, [user, friendId]);
+  }, [user, friendId, markRead]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
