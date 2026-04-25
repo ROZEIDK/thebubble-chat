@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useUnread } from "@/hooks/useUnread";
 
 interface Profile { id: string; username: string; display_name: string | null; avatar_url: string | null; }
 interface Message { id: string; sender_id: string; recipient_id: string; content: string; created_at: string; }
