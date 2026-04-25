@@ -31,6 +31,7 @@ interface Friendship {
 export default function Friends() {
   const { user } = useAuth();
   const nav = useNavigate();
+  const { counts } = useUnread();
   const [friendships, setFriendships] = useState<Friendship[]>([]);
   const [searchQ, setSearchQ] = useState("");
   const [searchResults, setSearchResults] = useState<Profile[]>([]);
