@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useUnread } from "@/hooks/useUnread";
 
 interface Profile { id: string; username: string; display_name: string | null; avatar_url: string | null; }
 interface Message { id: string; sender_id: string; recipient_id: string; content: string; created_at: string; }
@@ -14,6 +15,7 @@ interface Message { id: string; sender_id: string; recipient_id: string; content
 export default function DM() {
   const { friendId } = useParams<{ friendId: string }>();
   const { user } = useAuth();
+  const { markRead } = useUnread();
   const nav = useNavigate();
   const [friend, setFriend] = useState<Profile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -38,6 +40,9 @@ export default function DM() {
         setMessages(data || []);
       });
 
+    // Mark conversation as read when opened
+    markRead(friendId);
+
     const ch = supabase
       .channel(`dm-${user.id}-${friendId}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
@@ -47,11 +52,13 @@ export default function DM() {
           (m.sender_id === friendId && m.recipient_id === user.id)
         ) {
           setMessages((prev) => [...prev, m]);
+          // If incoming while viewing, keep marker fresh
+          if (m.sender_id === friendId) markRead(friendId);
         }
       })
       .subscribe();
     return () => { supabase.removeChannel(ch); };
-  }, [user, friendId]);
+  }, [user, friendId, markRead]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });

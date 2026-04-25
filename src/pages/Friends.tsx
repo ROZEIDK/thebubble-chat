@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MessageSquare, UserPlus, Check, X, Search, Users } from "lucide-react";
 import { toast } from "sonner";
+import { useUnread } from "@/hooks/useUnread";
 
 interface Profile {
   id: string;
@@ -30,6 +31,7 @@ interface Friendship {
 export default function Friends() {
   const { user } = useAuth();
   const nav = useNavigate();
+  const { counts } = useUnread();
   const [friendships, setFriendships] = useState<Friendship[]>([]);
   const [searchQ, setSearchQ] = useState("");
   const [searchResults, setSearchResults] = useState<Profile[]>([]);
@@ -128,6 +130,7 @@ export default function Friends() {
               <EmptyState text="No friends yet — head to Add Friend to find someone." />
             ) : accepted.map((f) => {
               const p = friendOf(f);
+              const unread = counts[p.id] || 0;
               return (
                 <Card key={f.id} className="bg-surface border-border p-4 flex items-center gap-4">
                   <Avatar className="h-11 w-11">
@@ -135,7 +138,14 @@ export default function Friends() {
                     <AvatarFallback>{p.username.slice(0, 2).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">{p.display_name || p.username}</div>
+                    <div className={`font-medium truncate flex items-center gap-2 ${unread > 0 ? "text-destructive" : ""}`}>
+                      <span className="truncate">{p.display_name || p.username}</span>
+                      {unread > 0 && (
+                        <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-destructive text-destructive-foreground text-[11px] font-semibold leading-none">
+                          {unread > 99 ? "99+" : unread}
+                        </span>
+                      )}
+                    </div>
                     <div className="text-xs text-muted-foreground truncate">@{p.username}</div>
                   </div>
                   <Button size="sm" onClick={() => nav(`/app/dm/${p.id}`)}>

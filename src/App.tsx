@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { UnreadProvider } from "@/hooks/useUnread";
 import RequireAuth from "@/components/RequireAuth";
 import AppLayout from "@/components/AppLayout";
 import Index from "./pages/Index";
@@ -25,6 +26,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <UnreadProvider>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
@@ -44,6 +46,7 @@ const App = () => (
             <Route path="/app/dm/:friendId" element={<RequireAuth><AppLayout><DM /></AppLayout></RequireAuth>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </UnreadProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
