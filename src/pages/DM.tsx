@@ -15,6 +15,7 @@ interface Message { id: string; sender_id: string; recipient_id: string; content
 export default function DM() {
   const { friendId } = useParams<{ friendId: string }>();
   const { user } = useAuth();
+  const { markRead } = useUnread();
   const nav = useNavigate();
   const [friend, setFriend] = useState<Profile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
