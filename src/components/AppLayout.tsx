@@ -27,18 +27,24 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <nav className="flex-1 flex flex-col gap-2">
           {items.map((it) => {
             const active = loc.pathname.startsWith(it.to);
+            const showBadge = it.to === "/app/friends" && total > 0;
             return (
               <Tooltip key={it.to} delayDuration={150}>
                 <TooltipTrigger asChild>
                   <NavLink
                     to={it.to}
-                    className={`group h-11 w-11 rounded-xl flex items-center justify-center transition-all ${
+                    className={`relative group h-11 w-11 rounded-xl flex items-center justify-center transition-all ${
                       active
                         ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-soft"
                         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
                     }`}
                   >
                     <it.icon className="h-5 w-5" />
+                    {showBadge && (
+                      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold leading-none flex items-center justify-center ring-2 ring-sidebar">
+                        {total > 99 ? "99+" : total}
+                      </span>
+                    )}
                   </NavLink>
                 </TooltipTrigger>
                 <TooltipContent side="right">{it.label}</TooltipContent>
