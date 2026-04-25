@@ -38,6 +38,24 @@ export type Database = {
         }
         Relationships: []
       }
+      dm_reads: {
+        Row: {
+          friend_id: string
+          last_read_at: string
+          user_id: string
+        }
+        Insert: {
+          friend_id: string
+          last_read_at?: string
+          user_id: string
+        }
+        Update: {
+          friend_id?: string
+          last_read_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       friendships: {
         Row: {
           addressee_id: string
