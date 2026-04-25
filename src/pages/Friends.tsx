@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MessageSquare, UserPlus, Check, X, Search, Users } from "lucide-react";
 import { toast } from "sonner";
+import { useUnread } from "@/hooks/useUnread";
 
 interface Profile {
   id: string;
