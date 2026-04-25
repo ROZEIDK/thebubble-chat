@@ -26,6 +26,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <UnreadProvider>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/app/dm/:friendId" element={<RequireAuth><AppLayout><DM /></AppLayout></RequireAuth>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </UnreadProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
